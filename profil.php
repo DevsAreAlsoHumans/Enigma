@@ -8,7 +8,7 @@ $mot_de_passe = "";
 $base_de_donnees = "enigma";
 
 
-$connexion = new mysqli($utilisateur, $motDePasse, $baseDeDonnees);
+$connexion = new mysqli($serveur, $utilisateur, $mot_de_passe, $base_de_donnees);
 
 if ($connexion->connect_error) {
     die("Échec de la connexion à la base de données : " . $connexion->connect_error);
