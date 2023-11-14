@@ -2,9 +2,10 @@
 
 session_start();
 
-$email = "test@test.fr";
-$motDePasse = "Kunei";
-$baseDeDonnees = "bddcrud";
+$serveur = "localhost";
+$utilisateur = "root";
+$mot_de_passe = "";
+$base_de_donnees = "enigma";
 
 
 $connexion = new mysqli($utilisateur, $motDePasse, $baseDeDonnees);
