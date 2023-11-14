@@ -1,3 +1,0 @@
-# designPatternsbugsWriters
-bugsWriters
-V1
