@@ -10,8 +10,7 @@ $confirm_mot_de_passe = $_POST['confirm_mot_de_passe'];
 
 if ($mot_de_passe === $confirm_mot_de_passe) {
 
-    // Préparer la requête SQL
-    
+    $mot_de_passe = password_hash($mot_de_passe, PASSWORD_BCRYPT);
     $database = new Database("localhost", "root", "", "bddcrud");
     $conn = $database->getConnection();
     
