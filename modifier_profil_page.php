@@ -24,11 +24,22 @@ if ($user) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profil</title>
+        <title>Modifier Profil</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f4f4f4;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar {
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                padding: 15px;
+                width: 100%;
             }
 
             .profile-container {
@@ -37,57 +48,58 @@ if ($user) {
                 border-radius: 8px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 width: 400px;
-                margin: 50px auto;
+                margin: 50px 0;
                 text-align: center;
             }
 
-            .info-group {
+            .form-group {
                 margin-bottom: 15px;
             }
 
-            .info-group strong {
+            .form-group label {
                 display: block;
                 margin-bottom: 5px;
             }
 
-            .info-group p {
-                margin: 0;
+            .form-group input {
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
             }
 
-            .form-group {
-                margin-top: 20px;
-            }
-
-            .form-group a {
-                display: inline-block;
+            .form-group button {
                 background-color: #4caf50;
                 color: #fff;
                 padding: 10px;
-                text-decoration: none;
+                border: none;
                 border-radius: 4px;
+                cursor: pointer;
             }
         </style>
     </head>
     <body>
         <div class="profile-container">
-            <h1>Informations de l'utilisateur</h1>
+            <h1>Modifier votre profil</h1>
 
-            <div class="info-group">
-                <strong>Email :</strong>
-                <p><?php echo $user['email']; ?></p>
-            </div>
-            <div class="info-group">
-                <strong>Nom :</strong>
-                <p><?php echo $user['last_name']; ?></p>
-            </div>
-            <div class="info-group">
-                <strong>Prénom :</strong>
-                <p><?php echo $user['first_name']; ?></p>
-            </div>
+            <form action="modifier_profil.php" method="post">
+                <input type="hidden" name="email" value="<?php echo $user['email']; ?>">
 
-            <div class="form-group">
-                <a href="modifier_profil_page.php">Modifier son profil</a>
-            </div>
+                <div class="form-group">
+                    <label for="nom">Nom :</label>
+                    <input type="text" name="nom" value="<?php echo $user['last_name']; ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" name="prenom" value="<?php echo $user['first_name']; ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit">Valider</button>
+                </div>
+            </form>
         </div>
     </body>
     </html>
@@ -96,6 +108,7 @@ if ($user) {
 } else {
     echo "Identifiants incorrects.";
 }
+
 include('./footer.php');
 $database->closeConnection();
 ?>
