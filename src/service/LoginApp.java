@@ -157,13 +157,18 @@ public class LoginApp extends JFrame {
     }
 
     private String getUsersList() {
+    	String email = emailField.getText();
         try {
             StringBuilder userList = new StringBuilder();
-            String query = "SELECT email FROM utilisateurs";
+           
+            String query = "SELECT email, first_name, last_name FROM utilisateurs WHERE email = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            	preparedStatement.setString(1, email);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     userList.append(resultSet.getString("email")).append("\n");
+                    userList.append(resultSet.getString("first_name")).append("\n");
+                    userList.append(resultSet.getString("last_name")).append("\n");
                 }
             }
             return userList.toString();
