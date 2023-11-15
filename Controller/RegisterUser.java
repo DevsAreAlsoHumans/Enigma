@@ -9,6 +9,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import Repository.InsertUser;
 import Repository.UserExists;
 
 public class RegisterUser extends JFrame{
@@ -18,10 +19,11 @@ public class RegisterUser extends JFrame{
             String password = new String(passwordField.getPassword());
             UserExists exist = new UserExists();
             if (exist.userExists(email)) {
-                JOptionPane.showMessageDialog(this, "Cet utilisateur existe dÈj‡.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Cet utilisateur existe d√©j√†.", "Erreur", JOptionPane.ERROR_MESSAGE);
             } else {
-                
-                JOptionPane.showMessageDialog(this, "Inscription rÈussie.", "SuccÈs", JOptionPane.INFORMATION_MESSAGE);
+                InsertUser insert = new InsertUser();
+                insert.insertUser(email, password);
+                JOptionPane.showMessageDialog(this, "Inscription r√©ussie.", "Succ√©s", JOptionPane.INFORMATION_MESSAGE);
                 UpdateUI updateUIInstance = new UpdateUI();
                 updateUIInstance.interfaceUI(userListTextArea);
             }
