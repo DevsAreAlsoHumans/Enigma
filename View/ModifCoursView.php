@@ -3,13 +3,11 @@ session_start();
 include('../header.php');
 require_once('../Controller/user.php');
 
-if($_SESSION["admin"] != 1){
-    header("Location: ./bienvenue.php");
+if ($_SESSION["admin"] != 1) {
+    header("Location: ./Bienvenue.php");
     exit;
-    
 }
 
-// Vérifie si l'utilisateur est connecté, sinon le redirige vers la page de connexion
 if (!isset($_SESSION['user_email'])) {
     header("Location: ../View/login_view.php");
     exit();
@@ -109,16 +107,11 @@ $user = new User($conn);
                         echo "<td>" . $row["intervenant"] . "</td>";
                         echo "<td>" . $row["duree_cours"] . "</td>";
                         echo "<td>" . $row["heure_cours"] . "</td>";
-
-                        // Colonne pour les actions sur le cours (dans ce cas, le lien pour la modification)
-
                         echo "<td>";
                         echo "<a href='edit_cours.php?id={$row["id_cours"]}'>Modifier</a>";
                         echo "</td>";
 
                         echo "</tr>";
-
-
                     }
                 } else {
                     echo "<tr><td colspan='8'>Aucun cours trouvé.</td></tr>";

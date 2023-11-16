@@ -93,7 +93,7 @@ class ProfileModificationView
                 <div class="profile-container">
                     <h1>Modifier votre profil</h1>
 
-                    <form action="../Modele/ModifProfile.php" method="post">
+                    <form action="../ModelModifProfile.php" method="post">
                         <input type="hidden" name="email" value="<?php echo $user['email']; ?>">
 
                         <div class="form-group">

@@ -8,6 +8,28 @@ if (!isset($_SESSION['user_email'])) {
     exit();
 }
 
+class CoursModifier
+{
+    private $conn;
+
+    public function __construct($conn)
+    {
+        $this->conn = $conn;
+    }
+
+    public function getCoursById($id_cours)
+    {
+        $query = "SELECT * FROM cours WHERE id_cours=$id_cours";
+        $result = $this->conn->query($query);
+
+        if ($result->num_rows == 1) {
+            return $result->fetch_assoc();
+        } else {
+            return false;
+        }
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id_cours"])) {
     $id_cours = $_GET["id_cours"];
 
@@ -17,18 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id_cours"])) {
         die("Erreur de connexion à la base de données : " . $conn->connect_error);
     }
 
-    $query = "SELECT * FROM cours WHERE id_cours=$id_cours";
-    $result = $conn->query($query);
+    $coursModifier = new CoursModifier($conn);
+    $cours = $coursModifier->getCoursById($id_cours);
 
-    if ($result->num_rows == 1) {
-        $cours = $result->fetch_assoc();
-    } else {
+    if (!$cours) {
         header("Location: edit_cours.php?message=Cours non trouvé.");
         exit();
     }
-
 } else {
-    var_dump($_GET["id_cours"]); 
+    var_dump($_GET["id_cours"]);
     header("Location: edit_cours.php?message=ID du cours non fourni.");
     exit();
 }
@@ -36,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id_cours"])) {
 
 <div class="container mt-5">
     <h2>Modifier le Cours</h2>
-    <form action="../Modele/traitementModificationCours.php" method="post" id="modificationCoursForm" onsubmit="return confirmerModificationCours();">
+    <form action="../ModelTraitementModificationCours.php" method="post" id="modificationCoursForm" onsubmit="return confirmerModificationCours();">
         <input type="hidden" name="id_cours" value="<?php echo $cours['id_cours']; ?>">
 
         <div class="form-group">

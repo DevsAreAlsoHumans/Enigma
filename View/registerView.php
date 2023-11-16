@@ -67,7 +67,7 @@ class RegisterView
 
             <div class="register-container">
                 <h2>Inscription</h2>
-                <form action="../Modele/Register.php" method="post">
+                <form action="../ModelRegister.php" method="post">
                     <div class="form-group">
                         <label for="last_name">Nom :</label>
                         <input type="text" name="last_name" class="form-control" required>

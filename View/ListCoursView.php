@@ -117,7 +117,7 @@
                 var coursId = $(this).data("cours-id");
                 $.ajax({
                     type: "POST",
-                    url: "../Modele/inscription_cours.php",
+                    url: "../ModelInscriptionCours.php",
                     data: { id_cours: coursId },
                     success: function (response) {
                         alert(response);
@@ -133,7 +133,7 @@
                 var coursId = $(this).data("cours-id");
                 $.ajax({
                     type: "POST",
-                    url: "../Modele/desinscription_cours.php",
+                    url: "../ModeldesInscriptionCours.php",
                     data: { id_cours: coursId },
                     success: function (response) {
                         alert(response);

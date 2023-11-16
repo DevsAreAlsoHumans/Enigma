@@ -28,7 +28,7 @@ class LoginView
                 $_SESSION['user_id'] = $userData['id'];
                 $_SESSION['admin'] = $userData['Admin'];
                 $_SESSION['connexion_status'] = "Connexion réussie!";
-                header("Location: bienvenue.php");
+                header("Location: Bienvenue.php");
                 exit();
             } else {
                 $_SESSION['connexion_status'] = "Échec de la connexion. Veuillez vérifier vos informations de connexion.";
