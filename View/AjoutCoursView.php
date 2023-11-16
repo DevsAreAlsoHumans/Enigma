@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 if($_SESSION["admin"] != 1){
@@ -9,6 +8,7 @@ if($_SESSION["admin"] != 1){
 
 include('../header.php');
 ?>
+
 <div class="container">
     <?php
     if (isset($_GET['success']) && $_GET['success'] == 1) {

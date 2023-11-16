@@ -27,14 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
         // Récupération des données du cours
         $cours = $result->fetch_assoc();
     } else {
-        // Redirige vers la page de liste des cours avec un message d'erreur si le cours n'est pas trouvé
-        header("Location: liste_cours.php?message=Cours non trouvé.");
+        header("Location: ../View/ModifCoursView.php?message=Cours non trouvé.");
         exit();
     }
 
 } else {
-    // Redirige vers la page de liste des cours avec un message d'erreur si l'ID du cours n'est pas fourni
-    header("Location: edit_cours.php?message=ID du cours non fourni.");
+    header("Location: ../View/ModifCoursView.php?message=ID du cours non fourni.");
     exit();
 }
 ?>

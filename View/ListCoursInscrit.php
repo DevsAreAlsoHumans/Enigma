@@ -1,10 +1,10 @@
 <?php
 session_start();
 include('../header.php');
-require_once('../Controller/user.php');
+require_once('../Controller/User.php');
 
 if (!isset($_SESSION['user_email'])) {
-    header("Location: login_view.php");
+    header("Location: LoginView.php");
     exit();
 }
 

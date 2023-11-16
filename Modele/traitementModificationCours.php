@@ -1,9 +1,9 @@
 <?php
 session_start();
-include('../Controller/user.php');
+include('../Controller/User.php');
 
 if (!isset($_SESSION['user_email'])) {
-    header("Location: ../View/login_view.php");
+    header("Location: ../View/LoginView.php");
     exit();
 }
 
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 } else {
-    header("Location: liste_cours.php");
+    header("Location: ../View/ModifCoursView.php");
     exit();
 }
 ?>

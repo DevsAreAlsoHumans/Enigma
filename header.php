@@ -38,20 +38,20 @@ $base_url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_R
             <ul class="navbar-nav ml-auto">
                 <?php if (!isset($_SESSION['user_email'])) { ?>
                     <li class="nav-item">
-                        <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/login_view.php">Connexion</a>
+                        <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/LoginView.php">Connexion</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/RegisterView.php">Inscription</a>
                     </li>
                 <?php } else { ?>
                     <li class="nav-item">
-                        <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/ListCours.php">Liste des cours</a>
+                        <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/Controller/CoursController.php">Liste des cours</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/ListCoursInscrit.php">Cours inscrit</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/profil.php">Profil</a>
+                        <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/ProfilView.php">Profil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/logout.php">Déconnexion</a>

@@ -1,7 +1,7 @@
 <?php
 include('../Database/database.php');
 
-class RegisterController
+class registerController
 {
     private $database;
 
@@ -24,7 +24,7 @@ class RegisterController
 
                 if ($stmt->execute()) {
                     $this->database->closeConnection();
-                    header("Location: ../View/login_view.php");
+                    header("Location: ../View/LoginView.php");
                     exit();
                 } else {
                     echo "Erreur lors de l'inscription : " . $stmt->error;

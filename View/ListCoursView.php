@@ -1,33 +1,3 @@
-<?php
-session_start();
-include('../header.php');
-require_once('../Controller/user.php');
-
-if($_SESSION["admin"] != 1){
-    header("Location: ./bienvenue.php");
-    exit;
-    
-}
-
-// Vérifie si l'utilisateur est connecté, sinon le redirige vers la page de connexion
-if (!isset($_SESSION['user_email'])) {
-    header("Location: ../View/login_view.php");
-    exit();
-}
-
-$conn = new mysqli("localhost", "root", "", "bddcrud");
-
-if ($conn->connect_error) {
-    die("Erreur de connexion à la base de données : " . $conn->connect_error);
-}
-
-$message = isset($_GET['message']) ? $_GET['message'] : '';
-
-$sql = "SELECT * FROM Cours ORDER BY date DESC;";
-$result = $conn->query($sql);
-$user = new User($conn);
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +41,7 @@ $user = new User($conn);
 <body>
 
     <div class="container mt-5">
-        <h2>Liste des Cours pouvant être modifié</h2>
+        <h2>Liste des Cours</h2>
         <?php if (!empty($message)) : ?>
             <div class="message <?php echo strpos($message, 'Erreur') !== false ? 'error' : 'success'; ?>">
                 <?php echo $message; ?>
@@ -110,15 +80,17 @@ $user = new User($conn);
                         echo "<td>" . $row["duree_cours"] . "</td>";
                         echo "<td>" . $row["heure_cours"] . "</td>";
 
-                        // Colonne pour les actions sur le cours (dans ce cas, le lien pour la modification)
-
                         echo "<td>";
-                        echo "<a href='edit_cours.php?id={$row["id_cours"]}'>Modifier</a>";
+                        if ($isInscriptionPossible && !$isUserInscrit) {
+                            echo "<button class='inscription-btn' data-cours-id='{$row["id_cours"]}'>S'inscrire</button>";
+                        } elseif ($isUserInscrit) {
+                            if (strtotime($row['date']) >= strtotime('today')) {
+                                echo "<button class='desinscription-btn' data-cours-id='{$row["id_cours"]}'>Se désinscrire</button>";
+                            }
+                        }
                         echo "</td>";
 
                         echo "</tr>";
-
-
                     }
                 } else {
                     echo "<tr><td colspan='8'>Aucun cours trouvé.</td></tr>";
@@ -127,10 +99,6 @@ $user = new User($conn);
             </tbody>
         </table>
     </div>
-
-    <?php
-    $conn->close();
-    ?>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
@@ -144,13 +112,41 @@ $user = new User($conn);
                     $(".cours-passe").hide();
                 }
             });
+
+            $(".inscription-btn").click(function () {
+                var coursId = $(this).data("cours-id");
+                $.ajax({
+                    type: "POST",
+                    url: "../Modele/inscription_cours.php",
+                    data: { id_cours: coursId },
+                    success: function (response) {
+                        alert(response);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Une erreur s'est produite lors de l'inscription.");
+                    }
+                });
+            });
+
+            $(".desinscription-btn").click(function () {
+                var coursId = $(this).data("cours-id");
+                $.ajax({
+                    type: "POST",
+                    url: "../Modele/desinscription_cours.php",
+                    data: { id_cours: coursId },
+                    success: function (response) {
+                        alert(response);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Une erreur s'est produite lors de la désinscription.");
+                    }
+                });
+            });
         });
     </script>
 
 </body>
 
 </html>
-
-<?php
-include('../footer.php');
-?>
