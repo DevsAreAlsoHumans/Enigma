@@ -1,7 +1,14 @@
+
 <?php
+session_start();
+if($_SESSION["admin"] != 1){
+    header("Location: ./bienvenue.php");
+    exit;
+    
+}
+
 include('../header.php');
 ?>
-
 <div class="container">
     <?php
     if (isset($_GET['success']) && $_GET['success'] == 1) {
