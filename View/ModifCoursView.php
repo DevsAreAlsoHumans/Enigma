@@ -3,6 +3,12 @@ session_start();
 include('../header.php');
 require_once('../Controller/user.php');
 
+if($_SESSION["admin"] != 1){
+    header("Location: ./bienvenue.php");
+    exit;
+    
+}
+
 // Vérifie si l'utilisateur est connecté, sinon le redirige vers la page de connexion
 if (!isset($_SESSION['user_email'])) {
     header("Location: ../View/login_view.php");
