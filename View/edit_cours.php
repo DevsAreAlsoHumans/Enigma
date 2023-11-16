@@ -3,13 +3,16 @@ session_start();
 include('../header.php');
 include('../Controller/user.php');
 
+// Vérifie si l'utilisateur est connecté, sinon le redirige vers la page de connexion
 if (!isset($_SESSION['user_email'])) {
     header("Location: ../View/login_view.php");
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id_cours"])) {
-    $id_cours = $_GET["id_cours"];
+
+// Vérifie si la requête est de type GET et si l'ID du cours est fourni en paramètre
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
+    $id_cours = $_GET["id"];
 
     $conn = new mysqli("localhost", "root", "", "bddcrud");
 
@@ -21,21 +24,24 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id_cours"])) {
     $result = $conn->query($query);
 
     if ($result->num_rows == 1) {
+        // Récupération des données du cours
         $cours = $result->fetch_assoc();
     } else {
+        // Redirige vers la page de liste des cours avec un message d'erreur si le cours n'est pas trouvé
         header("Location: liste_cours.php?message=Cours non trouvé.");
         exit();
     }
 
 } else {
-    header("Location: liste_cours.php?message=ID du cours non fourni.");
+    // Redirige vers la page de liste des cours avec un message d'erreur si l'ID du cours n'est pas fourni
+    header("Location: edit_cours.php?message=ID du cours non fourni.");
     exit();
 }
 ?>
 
 <div class="container mt-5">
     <h2>Modifier le Cours</h2>
-    <form action="traitementModificationCours.php" method="post" id="modificationCoursForm" onsubmit="return confirmerModificationCours();">
+    <form action="../Modele/traitementModificationCours.php" method="post" id="modificationCoursForm" onsubmit="return confirmerModificationCours();">
         <input type="hidden" name="id_cours" value="<?php echo $cours['id_cours']; ?>">
 
         <div class="form-group">

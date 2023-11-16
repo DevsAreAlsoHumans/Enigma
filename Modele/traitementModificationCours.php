@@ -28,10 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $query->execute();
 
     if ($result) {
-        header("Location: liste_cours.php?message=Mise à jour réussie.");
+        header("Location: ../View/ModifCoursView.php?message=Mise à jour réussie.");
         exit();
     } else {
-        header("Location: liste_cours.php?message=Erreur lors de la mise à jour. Veuillez réessayer. Erreur : " . $conn->error);
+        header("Location: ../View/ModifCoursView.php?message=Erreur lors de la mise à jour. Veuillez réessayer. Erreur : " . $conn->error);
         exit();
     }
 

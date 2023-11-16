@@ -8,9 +8,11 @@ if (!isset($_SESSION['user_email'])) {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id_cours"])) {
-    $id_cours = $_GET["id_cours"];
+// Vérifie si la requête est de type GET et si l'ID du cours est fourni en paramètre
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION["id_cours"])) {
+    $id_cours = $_SESSION["id_cours"];
 
+    var_dump($id_cours);
     $conn = new mysqli("localhost", "root", "", "bddcrud");
 
     if ($conn->connect_error) {
@@ -23,12 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id_cours"])) {
     if ($result->num_rows == 1) {
         $cours = $result->fetch_assoc();
     } else {
+        // Redirige vers la page edit_cours.php avec un message d'erreur si le cours n'est pas trouvé
         header("Location: edit_cours.php?message=Cours non trouvé.");
         exit();
     }
-
 } else {
-    var_dump($_GET["id_cours"]); 
+    var_dump($_GET["id_cours"]);
     header("Location: edit_cours.php?message=ID du cours non fourni.");
     exit();
 }
