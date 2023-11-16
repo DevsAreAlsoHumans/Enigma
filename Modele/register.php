@@ -1,24 +1,56 @@
 <?php
 include('../Database/database.php');
 
-$email = $_POST['email'];
-$first_name = $_POST['first_name'];
-$last_name = $_POST['last_name'];
-$mot_de_passe = $_POST['mot_de_passe'];
-$confirm_mot_de_passe = $_POST['confirm_mot_de_passe'];
+class RegisterController
+{
+    private $database;
 
-if ($mot_de_passe === $confirm_mot_de_passe) {
+    public function __construct($database)
+    {
+        $this->database = $database;
+    }
 
-    $mot_de_passe = password_hash($mot_de_passe, PASSWORD_BCRYPT);
-    $database = new Database("localhost", "root", "", "bddcrud");
-    $conn = $database->getConnection();
+    public function registerUser($email, $first_name, $last_name, $mot_de_passe, $confirm_mot_de_passe)
+    {
+        if ($mot_de_passe === $confirm_mot_de_passe) {
+            $mot_de_passe = password_hash($mot_de_passe, PASSWORD_BCRYPT);
+            $conn = $this->database->getConnection();
 
-    $sql = "INSERT INTO utilisateurs (email, mot_de_passe, first_name, last_name) VALUES ('$email', '$mot_de_passe', '$first_name', '$last_name')";
-    $stmt = $conn->prepare($sql);
-    
-    $stmt->execute();
-    
-    $database->closeConnection();
-    header("Location: ../View/login_view.php");
-    exit();
+            $sql = "INSERT INTO utilisateurs (email, mot_de_passe, first_name, last_name) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+
+            if ($stmt) {
+                $stmt->bind_param("ssss", $email, $mot_de_passe, $first_name, $last_name);
+
+                if ($stmt->execute()) {
+                    $this->database->closeConnection();
+                    header("Location: ../View/login_view.php");
+                    exit();
+                } else {
+                    echo "Erreur lors de l'inscription : " . $stmt->error;
+                }
+
+                $stmt->close();
+            } else {
+                echo "Erreur de préparation de la requête : " . $conn->error;
+            }
+        } else {
+            echo "Les mots de passe ne correspondent pas.";
+        }
+    }
 }
+
+// Utilisation de la classe RegisterController
+$database = new Database("localhost", "root", "", "bddcrud");
+$registerController = new RegisterController($database);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $mot_de_passe = $_POST['mot_de_passe'];
+    $confirm_mot_de_passe = $_POST['confirm_mot_de_passe'];
+
+    $registerController->registerUser($email, $first_name, $last_name, $mot_de_passe, $confirm_mot_de_passe);
+}
+?>

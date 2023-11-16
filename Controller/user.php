@@ -1,5 +1,4 @@
 <?php
-
 class User
 {
     private $db;
@@ -26,7 +25,6 @@ class User
 
         return false;
     }
-
 
     public function updateResetToken($email, $resetToken)
     {
@@ -90,8 +88,6 @@ class User
 
         return $coursInscrits;
     }
-
-
 
     public function validateResetToken($email, $token)
     {

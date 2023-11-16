@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($userData && password_verify($password, $userData['mot_de_passe'])) {
         $_SESSION['user_email'] = $email;
         $_SESSION['user_id'] = $userData['id'];
-        $_SESSION['admin'] = $userData['Admin']; // Assurez-vous que $userData['Admin'] est correct
+        $_SESSION['admin'] = $userData['Admin'];
         $_SESSION['connexion_status'] = "Connexion réussie!";
         header("Location: bienvenue.php");
         exit();

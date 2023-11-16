@@ -41,7 +41,7 @@ $base_url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_R
                         <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/login_view.php">Connexion</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/registerView.php">Inscription</a>
+                        <a class="nav-link lienNav h5" href="<?php echo $base_url; ?>/View/RegisterView.php">Inscription</a>
                     </li>
                 <?php } else { ?>
                     <li class="nav-item">

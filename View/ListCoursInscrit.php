@@ -135,7 +135,7 @@ $inscritCours = $user->getInscritCours($_SESSION['user_id']);
                 var coursId = $(this).data("cours-id");
                 $.ajax({
                     type: "POST",
-                    url: "desinscription_cours.php",
+                    url: "../Modele/desinscription_cours.php",
                     data: { id_cours: coursId },
                     success: function (response) {
                         alert(response);
