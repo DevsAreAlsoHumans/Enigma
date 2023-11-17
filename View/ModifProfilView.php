@@ -28,9 +28,10 @@ class ProfileModificationView
         $user = $stmt->get_result()->fetch_assoc();
 
         if ($user) {
-            ?>
+?>
             <!DOCTYPE html>
             <html lang="en">
+
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,13 +88,16 @@ class ProfileModificationView
                         border-radius: 4px;
                         cursor: pointer;
                     }
+
+                    
                 </style>
             </head>
+
             <body>
                 <div class="profile-container">
                     <h1>Modifier votre profil</h1>
 
-                    <form action="../ModelModifProfile.php" method="post">
+                    <form action="../Model/ModifProfile.php" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="email" value="<?php echo $user['email']; ?>">
 
                         <div class="form-group">
@@ -107,13 +111,19 @@ class ProfileModificationView
                         </div>
 
                         <div class="form-group">
+                            <label for="image">Image de profil :</label>
+                            <input type="file" name="image" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
                             <button type="submit">Valider</button>
                         </div>
                     </form>
                 </div>
             </body>
+
             </html>
-            <?php
+<?php
         } else {
             echo "Identifiants incorrects.";
         }
