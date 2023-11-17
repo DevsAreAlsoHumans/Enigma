@@ -67,7 +67,7 @@ class RegisterView
 
             <div class="register-container">
                 <h2>Inscription</h2>
-                <form action="../Model/Register.php" method="post">
+                <form action="../Modele/Register.php" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="last_name">Nom :</label>
                         <input type="text" name="last_name" class="form-control" required>
@@ -76,6 +76,11 @@ class RegisterView
                     <div class="form-group">
                         <label for="first_name">Prénom :</label>
                         <input type="text" name="first_name" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date_de_naissance">Date de naissance :</label>
+                        <input type="date" name="date_de_naissance" class="form-control" required>
                     </div>
 
                     <div class="form-group">
@@ -91,6 +96,11 @@ class RegisterView
                     <div class="form-group">
                         <label for="confirm_mot_de_passe">Confirmer le mot de passe :</label>
                         <input type="password" name="confirm_mot_de_passe" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">Image de profil :</label>
+                        <input type="file" name="image" class="form-control" required>
                     </div>
 
                     <div class="form-group">
