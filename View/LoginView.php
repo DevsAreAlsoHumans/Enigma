@@ -1,49 +1,12 @@
 <?php
-session_start();
-
-require_once('../Database/database.php');
-require_once('../Controller/User.php');
-
-class LoginView
+class RegisterView
 {
-    private $database;
-    private $user;
-
-    public function __construct($database, $user)
-    {
-        $this->database = $database;
-        $this->user = $user;
-    }
-
-    public function handleLogin()
-    {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $email = $_POST["email"];
-            $password = $_POST["password"];
-            
-            $userData = $this->user->getUserData($email);
-
-            if ($userData && password_verify($password, $userData['mot_de_passe'])) {
-                $_SESSION['user_email'] = $email;
-                $_SESSION['user_id'] = $userData['id'];
-                $_SESSION['admin'] = $userData['Admin'];
-                $_SESSION['connexion_status'] = "Connexion réussie!";
-                header("Location: Bienvenue.php");
-                exit();
-            } else {
-                $_SESSION['connexion_status'] = "Échec de la connexion. Veuillez vérifier vos informations de connexion.";
-                header("Location: LoginView.php");
-                exit();
-            }
-        }
-    }
-
     public function renderHeader()
     {
         include('../header.php');
     }
 
-    public function renderLoginForm()
+    public function renderForm()
     {
         ?>
         <!DOCTYPE html>
@@ -52,7 +15,8 @@ class LoginView
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Connexion</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+            <title>Inscription</title>
             <style>
                 body {
                     margin: 0;
@@ -64,7 +28,7 @@ class LoginView
                     min-height: 100vh;
                 }
 
-                .login-box {
+                .register-container {
                     position: absolute;
                     top: 50%;
                     left: 50%;
@@ -77,20 +41,21 @@ class LoginView
                     border-radius: 10px;
                 }
 
-                .login-box h2 {
+                .register-container h2 {
                     margin: 0 0 30px;
                     padding: 0;
                     color: #fff;
                     text-align: center;
                 }
 
-                .login-box .user-box {
+                .register-container .user-box {
                     position: relative;
                 }
 
-                .login-box .user-box input[type="email"],
-                .login-box .user-box input[type="password"],
-                .login-box .user-box input[type="text"] {
+                .register-container input[type="text"],
+                .register-container input[type="password"],
+                .register-container input[type="email"],
+                .register-container input[type="date"] {
                     width: 100%;
                     padding: 10px 0;
                     font-size: 16px;
@@ -102,7 +67,7 @@ class LoginView
                     background: transparent;
                 }
 
-                .login-box .user-box label {
+                .register-container label {
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -113,15 +78,15 @@ class LoginView
                     transition: .5s;
                 }
 
-                .login-box .user-box input:focus~label,
-                .login-box .user-box input:valid~label {
+                .register-container input:focus ~ label,
+                .register-container input:valid ~ label {
                     top: -20px;
                     left: 0;
                     color: #03e9f4;
                     font-size: 12px;
                 }
 
-                .login-box form a {
+                .register-container a {
                     position: relative;
                     display: inline-block;
                     padding: 10px 20px;
@@ -132,25 +97,22 @@ class LoginView
                     overflow: hidden;
                     transition: .5s;
                     margin-top: 40px;
-                    letter-spacing: 4px
+                    letter-spacing: 4px;
                 }
 
-                .login-box a:hover {
+                .register-container a:hover {
                     background: #03e9f4;
                     color: #fff;
                     border-radius: 5px;
-                    box-shadow: 0 0 5px #03e9f4,
-                    0 0 25px #03e9f4,
-                    0 0 50px #03e9f4,
-                    0 0 100px #03e9f4;
+                    box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4, 0 0 100px #03e9f4;
                 }
 
-                .login-box a span {
+                .register-container a span {
                     position: absolute;
                     display: block;
                 }
 
-                .login-box a span:nth-child(1) {
+                .register-container a span:nth-child(1) {
                     top: 0;
                     left: -100%;
                     width: 100%;
@@ -163,12 +125,12 @@ class LoginView
                     0% {
                         left: -100%;
                     }
-                    50%, 100% {
+                    50%,100% {
                         left: 100%;
                     }
                 }
 
-                .login-box a span:nth-child(2) {
+                .register-container a span:nth-child(2) {
                     top: -100%;
                     right: 0;
                     width: 2px;
@@ -182,12 +144,12 @@ class LoginView
                     0% {
                         top: -100%;
                     }
-                    50%, 100% {
+                    50%,100% {
                         top: 100%;
                     }
                 }
 
-                .login-box a span:nth-child(3) {
+                .register-container a span:nth-child(3) {
                     bottom: 0;
                     right: -100%;
                     width: 100%;
@@ -201,12 +163,12 @@ class LoginView
                     0% {
                         right: -100%;
                     }
-                    50%, 100% {
+                    50%,100% {
                         right: 100%;
                     }
                 }
 
-                .login-box a span:nth-child(4) {
+                .register-container a span:nth-child(4) {
                     bottom: -100%;
                     left: 0;
                     width: 2px;
@@ -220,7 +182,7 @@ class LoginView
                     0% {
                         bottom: -100%;
                     }
-                    50%, 100% {
+                    50%,100% {
                         bottom: 100%;
                     }
                 }
@@ -228,36 +190,54 @@ class LoginView
         </head>
 
         <body>
-            <div class="login-box">
-                <h2>Connexion</h2>
-                <?php
-                if (isset($_SESSION['connexion_status'])) {
-                    echo "<p>{$_SESSION['connexion_status']}</p>";
-                    unset($_SESSION['connexion_status']);
-                }
-                ?>
-                <form action="LoginView.php" method="post">
+
+            <div class="register-container">
+                <h2>Inscription</h2>
+                <form action="../Modele/Register.php" method="post" enctype="multipart/form-data">
                     <div class="user-box">
-                        <input type="email" id="email" name="email" required>
+                        <input type="text" name="last_name" required="">
+                        <label>Nom</label>
+                    </div>
+
+                    <div class="user-box">
+                        <input type="text" name="first_name" required="">
+                        <label>Prénom</label>
+                    </div>
+
+                    <div class="user-box">
+                        <input type="date" name="date_de_naissance" required="">
+                    </div>
+
+                    <div class="user-box">
+                        <input type="email" name="email" required="">
                         <label>Email</label>
                     </div>
+
                     <div class="user-box">
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" name="mot_de_passe" required="">
                         <label>Mot de passe</label>
                     </div>
+
+                    <div class="user-box">
+                        <input type="password" name="confirm_mot_de_passe" required="">
+                        <label>Confirmer le mot de passe</label>
+                    </div>
+
                     <a href="#">
                         <span></span>
                         <span></span>
                         <span></span>
                         <span></span>
-                        <input type="submit" value="Se connecter" class="btn btn-primary">
+                        <input type="submit" value="S'inscrire" class="btn btn-primary">
                     </a>
                 </form>
             </div>
+
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         </body>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
         </html>
         <?php
     }
@@ -268,12 +248,8 @@ class LoginView
     }
 }
 
-$database = new Database("localhost", "root", "", "bddcrud");
-$user = new User($database);
-$loginView = new LoginView($database, $user);
-
-$loginView->handleLogin();
-$loginView->renderHeader();
-$loginView->renderLoginForm();
-$loginView->renderFooter();
+$RegisterView = new RegisterView();
+$RegisterView->renderHeader();
+$RegisterView->renderForm();
+$RegisterView->renderFooter();
 ?>
