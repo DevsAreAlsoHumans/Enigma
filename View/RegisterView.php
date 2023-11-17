@@ -191,15 +191,6 @@ class RegisterView
                     }
                 }
 
-                .footer {
-                    text-align: center;
-                    padding: 10px;
-                    background: black;
-                    color: white;
-                    position: fixed;
-                    bottom: 0;
-                    width: 100%;
-                }
 
             </style>
         </head>
@@ -250,7 +241,6 @@ class RegisterView
         </body>
 
         </html>
-        <div class="footer">
         <?php
     }
 
@@ -265,4 +255,3 @@ $RegisterView->renderHeader();
 $RegisterView->renderForm();
 $RegisterView->renderFooter();
 ?>
-</div>
