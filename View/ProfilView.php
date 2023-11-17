@@ -20,17 +20,20 @@ class ProfileView
         $email = $_SESSION['user_email'];
         $conn = $this->database->getConnection();
 
-        $sql = "SELECT first_name, last_name, email FROM utilisateurs WHERE email = ?";
+        $sql = "SELECT first_name, last_name, email, image_profil FROM utilisateurs WHERE email = ?";
         $stmt = $conn->prepare($sql);
 
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $user = $stmt->get_result()->fetch_assoc();
+        
+        $target_dir = "../Public/img/";
 
         if ($user) {
-            ?>
+?>
             <!DOCTYPE html>
             <html lang="en">
+
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,11 +79,23 @@ class ProfileView
                         text-decoration: none;
                         border-radius: 4px;
                     }
+
+                    img{
+                        width: 100px;
+                        height: 100px;
+                    }
                 </style>
             </head>
+
             <body>
                 <div class="profile-container">
                     <h1>Informations de l'utilisateur</h1>
+
+
+                    <div class="info-group">
+                        <strong>Image de profile :</strong>
+                        <img src=<?php echo $target_dir . $user['image_profil']?> alt="Image de profile" class="edit_img_profil">
+                    </div>
 
                     <div class="info-group">
                         <strong>Email :</strong>
@@ -100,8 +115,9 @@ class ProfileView
                     </div>
                 </div>
             </body>
+
             </html>
-            <?php
+<?php
         } else {
             echo "Identifiants incorrects.";
         }
