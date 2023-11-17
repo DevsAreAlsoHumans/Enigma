@@ -13,10 +13,34 @@ class ModifProfile
     public function updateProfile($email, $nom, $prenom)
     {
         $conn = $this->database->getConnection();
+        $stmt  = $conn->prepare("SELECT id FROM utilisateurs WHERE email = ?;");
+        
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $user =  $stmt->get_result()->fetch_assoc();
 
-        $sql = "UPDATE utilisateurs SET last_name = ?, first_name = ? WHERE email = ?";
+        $image = "";
+        
+        // Vérifier si le fichier a été correctement téléchargé
+        if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
+            // Emplacement où vous souhaitez sauvegarder le fichier téléchargé
+            $repertoireDuFichier = dirname(__FILE__);
+            $target_dir = $repertoireDuFichier."/../Public/img/";
+            $target_file = $target_dir . "image_". $user['id']  . ".png";
+            
+            $image=  "image_". $user['id']  . ".png";
+            // Déplacer le fichier téléchargé vers l'emplacement souhaité
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                echo "L'image a été téléchargée avec succès.";
+            } else {
+                echo "Une erreur s'est produite lors du téléchargement de l'image.";
+            }
+        }
+
+        $sql = "UPDATE utilisateurs SET last_name = ?, first_name = ?, image_profil = ? WHERE email = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $nom, $prenom, $email);
+        $stmt->bind_param("ssss", $nom, $prenom, $image, $email);
+        
 
         if ($stmt->execute()) {
             echo "Profil mis à jour avec succès. Redirection vers votre profil...";
