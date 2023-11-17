@@ -18,94 +18,229 @@ class RegisterView
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
             <title>Inscription</title>
             <style>
+                html {
+                    height: 100%;
+                }
+
                 body {
-                    background-color: #f8f9fa;
+                    margin: 0;
+                    padding: 0;
+                    font-family: sans-serif;
+                    background: linear-gradient(#141e30, #243b55);
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 100vh;
                 }
 
-                .register-container {
-                    max-width: 400px;
-                    margin: auto;
-                    margin-top: 50px;
-                    padding: 20px;
-                    background-color: #fff;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                .register-box {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 400px;
+                    padding: 40px;
+                    transform: translate(-50%, -50%);
+                    background: rgba(0, 0, 0, .5);
+                    box-sizing: border-box;
+                    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+                    border-radius: 10px;
+                    flex: 1;
                 }
 
-                .register-container h2 {
+                .register-box h2 {
+                    margin: 0 0 30px;
+                    padding: 0;
+                    color: #fff;
                     text-align: center;
                 }
 
-                .form-group {
-                    margin-bottom: 20px;
+                .register-box .user-box {
+                    position: relative;
                 }
 
-                input[type="text"],
-                input[type="email"],
-                input[type="password"] {
+                .register-box .user-box input[type="text"],
+                .register-box .user-box input[type="password"],
+                .register-box .user-box input[type="email"] {
                     width: 100%;
-                    padding: 10px;
-                    margin-bottom: 10px;
-                    box-sizing: border-box;
-                }
-
-                input[type="submit"] {
-                    width: 100%;
-                    padding: 10px;
-                    background-color: #007bff;
+                    padding: 10px 0;
+                    font-size: 16px;
                     color: #fff;
+                    margin-bottom: 30px;
                     border: none;
-                    cursor: pointer;
+                    border-bottom: 1px solid #fff;
+                    outline: none;
+                    background: transparent;
                 }
 
-                input[type="submit"]:hover {
-                    background-color: #0056b3;
+                .register-box .user-box label {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding: 10px 0;
+                    font-size: 16px;
+                    color: #fff;
+                    pointer-events: none;
+                    transition: .5s;
                 }
+
+                .register-box .user-box input:focus~label,
+                .register-box .user-box input:valid~label {
+                    top: -20px;
+                    left: 0;
+                    color: #03e9f4;
+                    font-size: 12px;
+                }
+
+                .register-box form a {
+                    position: relative;
+                    display: inline-block;
+                    padding: 10px 20px;
+                    color: #03e9f4;
+                    font-size: 16px;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    overflow: hidden;
+                    transition: .5s;
+                    margin-top: 40px;
+                    letter-spacing: 4px
+                }
+
+                .register-box a:hover {
+                    background: #03e9f4;
+                    color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4, 0 0 100px #03e9f4;
+                }
+
+                .register-box a span {
+                    position: absolute;
+                    display: block;
+                }
+
+                .register-box a span:nth-child(1) {
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 2px;
+                    background: linear-gradient(90deg, transparent, #03e9f4);
+                    animation: btn-anim1 1s linear infinite;
+                }
+
+                @keyframes btn-anim1 {
+                    0% {
+                        left: -100%;
+                    }
+                    50%, 100% {
+                        left: 100%;
+                    }
+                }
+
+                .register-box a span:nth-child(2) {
+                    top: -100%;
+                    right: 0;
+                    width: 2px;
+                    height: 100%;
+                    background: linear-gradient(180deg, transparent, #03e9f4);
+                    animation: btn-anim2 1s linear infinite;
+                    animation-delay: .25s
+                }
+
+                @keyframes btn-anim2 {
+                    0% {
+                        top: -100%;
+                    }
+                    50%, 100% {
+                        top: 100%;
+                    }
+                }
+
+                .register-box a span:nth-child(3) {
+                    bottom: 0;
+                    right: -100%;
+                    width: 100%;
+                    height: 2px;
+                    background: linear-gradient(270deg, transparent, #03e9f4);
+                    animation: btn-anim3 1s linear infinite;
+                    animation-delay: .5s
+                }
+
+                @keyframes btn-anim3 {
+                    0% {
+                        right: -100%;
+                    }
+                    50%, 100% {
+                        right: 100%;
+                    }
+                }
+
+                .register-box a span:nth-child(4) {
+                    bottom: -100%;
+                    left: 0;
+                    width: 2px;
+                    height: 100%;
+                    background: linear-gradient(360deg, transparent, #03e9f4);
+                    animation: btn-anim4 1s linear infinite;
+                    animation-delay: .75s
+                }
+
+                @keyframes btn-anim4 {
+                    0% {
+                        bottom: -100%;
+                    }
+                    50%, 100% {
+                        bottom: 100%;
+                    }
+                }
+
+                .footer {
+                    text-align: center;
+                    padding: 10px;
+                    background: black;
+                    color: white;
+                    position: fixed;
+                    bottom: 0;
+                    width: 100%;
+                }
+
             </style>
         </head>
 
         <body>
 
-            <div class="register-container">
+            <div class="register-box">
                 <h2>Inscription</h2>
-                <form action="../Modele/Register.php" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="last_name">Nom :</label>
-                        <input type="text" name="last_name" class="form-control" required>
+                <form action="../Model/Register.php" method="post">
+                    <div class="user-box">
+                        <input type="text" pattern="[A-Za-z ]+" oninput="this.value = this.value.replace(/[^A-Za-z ]+/g, '');" name="last_name" required>
+                        <label>Nom</label>
                     </div>
 
-                    <div class="form-group">
-                        <label for="first_name">Prénom :</label>
-                        <input type="text" name="first_name" class="form-control" required>
+                    <div class="user-box">
+                        <input type="text" pattern="[A-Za-z ]+" oninput="this.value = this.value.replace(/[^A-Za-z ]+/g, '');" name="first_name" required>
+                        <label>Prénom</label>
                     </div>
 
-                    <div class="form-group">
-                        <label for="date_de_naissance">Date de naissance :</label>
-                        <input type="date" name="date_de_naissance" class="form-control" required>
+                    <div class="user-box">
+                        <input type="email" name="email" required>
+                        <label>Email</label>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email">Email :</label>
-                        <input type="email" name="email" class="form-control" required>
+                    <div class="user-box">
+                        <input type="password" name="mot_de_passe" required>
+                        <label>Mot de passe</label>
                     </div>
 
-                    <div class="form-group">
-                        <label for="mot_de_passe">Mot de passe :</label>
-                        <input type="password" name="mot_de_passe" class="form-control" required>
+                    <div class="user-box">
+                        <input type="password" name="confirm_mot_de_passe" required>
+                        <label>Confirmer le mot de passe</label>
                     </div>
 
-                    <div class="form-group">
-                        <label for="confirm_mot_de_passe">Confirmer le mot de passe :</label>
-                        <input type="password" name="confirm_mot_de_passe" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="image">Image de profil :</label>
-                        <input type="file" name="image" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
+                    <a href="#">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
                         <input type="submit" value="S'inscrire" class="btn btn-primary">
-                    </div>
+                    </a>
                 </form>
             </div>
 
@@ -115,6 +250,7 @@ class RegisterView
         </body>
 
         </html>
+        <div class="footer">
         <?php
     }
 
@@ -129,3 +265,4 @@ $RegisterView->renderHeader();
 $RegisterView->renderForm();
 $RegisterView->renderFooter();
 ?>
+</div>
