@@ -135,7 +135,7 @@ class ListCoursInscrit
                         var coursId = $(this).data("cours-id");
                         $.ajax({
                             type: "POST",
-                            url: "../ModeldesInscriptionCours.php",
+                            url: "../Model/DesinscriptionCours.php",
                             data: { id_cours: coursId },
                             success: function (response) {
                                 alert(response);
